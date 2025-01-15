@@ -1,3 +1,5 @@
+0.4: uusi muistiinpano
+
 When user has typed a new note and clicks save the following happens:
 ```mermaid
 sequenceDiagram
