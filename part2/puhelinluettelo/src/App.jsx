@@ -4,12 +4,15 @@ import AddPerson from './components/AddPerson'
 import Show from './components/Show'
 import axios from 'axios'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchWord, setSearchWord] = useState('')
+  const [message, setMessage] = useState(null)
+
 
   const hook = () => {
     console.log('effect')
@@ -42,6 +45,12 @@ const App = () => {
             setPersons(persons.map(person =>
               person.id !== existingPerson.id ? person : updatedPerson
               ))
+              setMessage(`${existingPerson.name} updated succesfully!`)
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
+              setNewName('')
+              setNewNumber('')
             })  
       }
     } else {
@@ -49,9 +58,15 @@ const App = () => {
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setMessage(`${returnedPerson.name} added succesfully!`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
       })
+  
+    
     }
   }
 
@@ -65,6 +80,10 @@ const App = () => {
       .then(() => {
         setPersons(persons.filter(person => person.id !== id))
       })
+        setMessage(`${person.name} deleted`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
     }
   }
 
@@ -94,7 +113,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Filter searchWord={searchWord} handleSearchChange={handleSearchChange}/>
+      <Notification message={message} />
+      <Filter searchWord={searchWord} handleSearchChange={handleSearchChange}/>
      
       <h3>Add a new</h3>
         <AddPerson addPerson={addPerson} newName={newName} 
