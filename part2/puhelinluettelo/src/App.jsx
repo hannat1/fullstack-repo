@@ -15,7 +15,7 @@ const App = () => {
 
   const hook = () => {
     console.log("effect")
-    axios.get("http://localhost:3001/persons").then((response) => {
+    axios.get("/api/persons").then((response) => {
       console.log("promise fulfilled")
       setPersons(response.data)
     })
@@ -35,7 +35,7 @@ const App = () => {
     if (existingPerson) {
       if (
         window.confirm(
-          `${newName} is already added to phonebook. Do you want to replace the old number with the new one?`
+          `${newName} is already added to phonebook. Do you want to replace the old number with the new one?`,
         )
       ) {
         personService
@@ -43,8 +43,8 @@ const App = () => {
           .then((updatedPerson) => {
             setPersons(
               persons.map((person) =>
-                person.id !== existingPerson.id ? person : updatedPerson
-              )
+                person.id !== existingPerson.id ? person : updatedPerson,
+              ),
             )
             setMessage(`${existingPerson.name} updated succesfully!`)
             setTimeout(() => {
@@ -55,7 +55,7 @@ const App = () => {
           })
           .catch((error) => {
             setMessage(
-              `Information of ${existingPerson.name} has already been removed from server`
+              `Information of ${existingPerson.name} has already been removed from server`,
             )
             setTimeout(() => {
               setMessage(null)
@@ -109,7 +109,7 @@ const App = () => {
     ? persons.filter(
         (person) =>
           person.name.toLowerCase().includes(searchWord.toLowerCase()) ||
-          person.number.toLowerCase().includes(searchWord.toLowerCase())
+          person.number.toLowerCase().includes(searchWord.toLowerCase()),
       )
     : persons
 
