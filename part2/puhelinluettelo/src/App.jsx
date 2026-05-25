@@ -63,15 +63,20 @@ const App = () => {
           })
       }
     } else {
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson))
-        setMessage(`${returnedPerson.name} added succesfully!`)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-        setNewName("")
-        setNewNumber("")
-      })
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          setMessage(`${returnedPerson.name} added succesfully!`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+          setNewName("")
+          setNewNumber("")
+        })
+        .catch((error) => {
+          console.log(error.response.data)
+        })
     }
   }
 
