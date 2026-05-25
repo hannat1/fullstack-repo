@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react"
-import Filter from "./components/Filter"
-import AddPerson from "./components/AddPerson"
-import Show from "./components/Show"
-import axios from "axios"
-import personService from "./services/persons"
-import Notification from "./components/Notification"
+import { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import AddPerson from './components/AddPerson'
+import Show from './components/Show'
+import axios from 'axios'
+import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState("")
-  const [newNumber, setNewNumber] = useState("")
-  const [searchWord, setSearchWord] = useState("")
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [searchWord, setSearchWord] = useState('')
   const [message, setMessage] = useState(null)
 
   const hook = () => {
-    console.log("effect")
-    axios.get("/api/persons").then((response) => {
-      console.log("promise fulfilled")
+    console.log('effect')
+    axios.get('/api/persons').then((response) => {
+      console.log('promise fulfilled')
       setPersons(response.data)
     })
   }
@@ -50,13 +50,12 @@ const App = () => {
             setTimeout(() => {
               setMessage(null)
             }, 5000)
-            setNewName("")
-            setNewNumber("")
+            setNewName('')
+            setNewNumber('')
           })
           .catch((error) => {
-            setMessage(
-              `Information of ${existingPerson.name} has already been removed from server`,
-            )
+            console.log(error.response.data)
+            setMessage(error.response.data.error)
             setTimeout(() => {
               setMessage(null)
             }, 5000)
@@ -71,8 +70,8 @@ const App = () => {
           setTimeout(() => {
             setMessage(null)
           }, 5000)
-          setNewName("")
-          setNewNumber("")
+          setNewName('')
+          setNewNumber('')
         })
         .catch((error) => {
           console.log(error.response.data)
