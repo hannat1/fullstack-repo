@@ -1,22 +1,16 @@
-const Notification = ({ message }) => { 
-    if (message === null) {
-      return null
-    } 
-    if (message.includes('succesfully') === true) {
-      console.log((message.includes('succesfully')), "include")
-      return (
-        <div className="success">
-          {message}
-        </div>
-      )
-    } 
-    console.log((message.includes('succesfully')), "include")
+import "../index.css"
 
-    return (
-      <div className="error">
-        {message}
-      </div>
-    )
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
   }
+  if (message.includes("succesfully") === true) {
+    console.log(message.includes("succesfully"), "include")
+    return <div className="success">{message}</div>
+  }
+  console.log(message.includes("succesfully"), "include")
 
-  export default Notification
+  return <div className="error">{message}</div>
+}
+
+export default Notification
