@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikhhbm5hIiwiaWQiOiI2YTE4MmMyYmU1ZmVmNzk2OGUwYWEyMGUiLCJpYXQiOjE3ODAwNDU4MDIsImV4cCI6MTc4MDA0OTQwMn0.WshcuQS_678ANvddVpzALw52CK46nbR5yQxa6itDOhU
 
 {
-  "title": "Testi2",
-  "author": "Testaaja",
-  "url": "www.testi.com",
-  "likes": 1
+  "title": "Liisan MuotiBlogi",
+  "author": "Vogue",
+  "url": "www.vogue.com",
+  "likes": 10
 }
