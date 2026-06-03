@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, likeBlog, loggedInUser, handleRemove }) => {
+const Blog = ({ dataTestid, blog, likeBlog, loggedInUser, handleRemove }) => {
   const [view, setView] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -11,7 +11,7 @@ const Blog = ({ blog, likeBlog, loggedInUser, handleRemove }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-testid={dataTestid}>
       <div>
         {blog.title} {blog.author}
         <button onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>

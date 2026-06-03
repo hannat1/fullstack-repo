@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikhhbm5hIiwiaWQiOiI2YTE4MmMyYmU1ZmVmNzk2OGUwYWEyMGUiLCJpYXQiOjE3ODAwNDYyNDIsImV4cCI6MTc4MDA0OTg0Mn0.rcMERjSgmVHcnkY8vv4VcCy1TrzrI_3kI_1rdElXBfI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3RhYWphIiwiaWQiOiI2YTFlOWViZDE2NDgzNDc5MzM2N2QxZmIiLCJpYXQiOjE3ODAzOTIyNzcsImV4cCI6MTc4MDM5NTg3N30._pVE8zZ7e9vz6yNxu9LWBoshwBW1PmSALrJ5a6rPCaI
 
 {
   "title": "Marjan MuotiBlogi",
