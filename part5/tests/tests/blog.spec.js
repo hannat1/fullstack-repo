@@ -24,8 +24,8 @@ describe('Blog app', () => {
   })
 
   test('Login form is shown', async ({ page }) => {
-    const locator = page.getByText('blogs')
-    await expect(locator).toBeVisible()
+    await page.goto('http://localhost:5173/login')
+
     await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible()
     await expect(page.getByLabel('username')).toBeVisible()
     await expect(page.getByLabel('password')).toBeVisible()
@@ -36,23 +36,28 @@ describe('Blog app', () => {
     test('succeeds with correct credentials', async ({ page }) => {
       await loginWith(page, 'mluukkai', 'salainen')
 
-      await expect(page.getByText('Matti Luukkainen logged in')).toBeVisible()
+      await expect(page.getByText('logout')).toBeVisible()
     })
 
     test('fails with wrong credentials', async ({ page }) => {
       await loginWith(page, 'väärä', 'salainen')
       const errorDiv = page.locator('.error')
-      await expect(errorDiv).toContainText('wrong username or password')
+
+      await expect(errorDiv).toBeVisible()
+      await expect(errorDiv).toContainText('wrong credentials')
       await expect(errorDiv).toHaveCSS('border-style', 'solid')
       await expect(errorDiv).toHaveCSS('color', 'rgb(255, 0, 0)')
-      await expect(page.getByText('wrong username or password')).toBeVisible()
-      await expect(page.getByText('väärä logged in')).not.toBeVisible()
+      await expect(page.getByText('wrong credentials')).toBeVisible()
+      await expect(page.getByText('logout')).not.toBeVisible()
     })
   })
 
   describe('when logged in', () => {
     beforeEach(async ({ page }) => {
       await loginWith(page, 'mluukkai', 'salainen')
+      console.log(
+        await page.evaluate(() => localStorage.getItem('loggedBlogappUser')),
+      )
     })
 
     test('a new blog can be created', async ({ page }) => {
@@ -64,7 +69,7 @@ describe('Blog app', () => {
       )
       await expect(page.getByText(/created succesfully/i)).toBeVisible()
       await expect(
-        page.getByText('a blog created by playwright Test'),
+        page.getByRole('link', { name: 'a blog created by playwright' }),
       ).toBeVisible()
     })
 
@@ -76,7 +81,9 @@ describe('Blog app', () => {
         'http://example.com',
       )
 
-      await page.getByRole('button', { name: 'view' }).click()
+      await page
+        .getByRole('link', { name: 'a blog created by playwright' })
+        .click()
       await page.getByRole('button', { name: 'like' }).click()
       await expect(page.getByText('1 likes')).toBeVisible()
       await page.getByRole('button', { name: 'like' }).click()
@@ -90,14 +97,16 @@ describe('Blog app', () => {
         'Test',
         'http://example.com',
       )
-      await page.getByRole('button', { name: 'view' }).click()
+      await page
+        .getByRole('link', { name: 'This blog will be deleted' })
+        .click()
       page.on('dialog', async (dialog) => {
         await dialog.accept()
       })
       await page.getByRole('button', { name: 'delete' }).click()
 
       await expect(
-        page.getByText('This blog will be deleted Test'),
+        page.getByText('Test: This blog will be deleted'),
       ).not.toBeVisible()
     })
 
@@ -116,13 +125,17 @@ describe('Blog app', () => {
 
       await loginWith(page, 'toinen', 'salainen')
 
-      await page.getByRole('button', { name: 'view' }).click()
+      await page
+        .getByRole('link', {
+          name: 'This blog cannot be deleted by other users',
+        })
+        .click()
       await expect(
         page.getByRole('button', { name: 'delete' }),
       ).not.toBeVisible()
 
       await expect(
-        page.getByText('This blog cannot be deleted by other users Test'),
+        page.getByText('Test: This blog cannot be deleted by other users'),
       ).toBeVisible()
 
       await createBlog(
@@ -131,14 +144,16 @@ describe('Blog app', () => {
         'Test',
         'http://example.com',
       )
-      await page.getByRole('button', { name: 'view' }).click()
+      await page
+        .getByRole('link', { name: 'This blog will be deleted' })
+        .click()
       page.on('dialog', async (dialog) => {
         await dialog.accept()
       })
 
       await page.getByRole('button', { name: 'delete' }).click()
       await expect(
-        page.getByText('This blog will be deleted Test'),
+        page.getByRole('link', { name: 'This blog will be deleted' }),
       ).not.toBeVisible()
     })
   })
@@ -153,14 +168,14 @@ describe('Blog app', () => {
       const firstBlog = page.getByTestId('blog').filter({ hasText: 'blog 1' })
       const secondBlog = page.getByTestId('blog').filter({ hasText: 'blog 2' })
 
-      await firstBlog.getByRole('button', { name: 'view' }).click()
+      await firstBlog.getByText('blog 1').click()
       await firstBlog.getByRole('button', { name: 'like' }).click()
       await expect(firstBlog).toContainText('1 likes')
 
       await firstBlog.getByRole('button', { name: 'like' }).click()
       await expect(firstBlog).toContainText('2 likes')
 
-      await secondBlog.getByRole('button', { name: 'view' }).click()
+      await secondBlog.getByText('blog 2').click()
       await secondBlog.getByRole('button', { name: 'like' }).click()
       await expect(secondBlog).toContainText('1 likes')
     })

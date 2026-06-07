@@ -1,5 +1,7 @@
+import { TextField, Button } from '@mui/material'
+
 const LoginForm = ({
-  handleSubmit,
+  handleLogin,
   handleUsernameChange,
   handlePasswordChange,
   username,
@@ -9,12 +11,13 @@ const LoginForm = ({
     <div>
       <h2>Login</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <div>
           <label>
-            username
-            <input
+            username:
+            <TextField
               type="text"
+              placeholder="username"
               value={username}
               onChange={handleUsernameChange}
             />
@@ -22,15 +25,18 @@ const LoginForm = ({
         </div>
         <div>
           <label>
-            password
-            <input
+            password:
+            <TextField
               type="password"
+              placeholder="password"
               value={password}
               onChange={handlePasswordChange}
             />
           </label>
         </div>
-        <button type="submit">login</button>
+        <Button type="submit" variant="contained">
+          login
+        </Button>
       </form>
     </div>
   )

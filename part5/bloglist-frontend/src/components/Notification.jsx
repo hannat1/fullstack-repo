@@ -1,17 +1,19 @@
 import '../index.css'
+import { Alert } from '@mui/material'
 
-const Notification = ({ message }) => {
-  if (message === null) {
+const Notification = ({ notification }) => {
+  if (notification === null) {
     return null
   }
-  if (message.includes('succesfully') === true) {
-    console.log(message.includes('succesfully'), 'include')
-    return <div className="success">{message}</div>
-  }
-  console.log(message.includes('succesfully'), 'include')
-  console.log(message, 'message')
 
-  return <div className="error">{message}</div>
+  return (
+    <Alert
+      style={{ marginTop: 10, marginBottom: 10 }}
+      severity={notification.type}
+    >
+      {notification.text}
+    </Alert>
+  )
 }
 
 export default Notification

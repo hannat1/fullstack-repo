@@ -1,37 +1,58 @@
-import { useState } from 'react'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Link,
+  Stack,
+} from '@mui/material'
 
 const Blog = ({ dataTestid, blog, likeBlog, loggedInUser, handleRemove }) => {
-  const [view, setView] = useState(false)
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
+  if (!blog) {
+    return null
   }
 
   return (
-    <div style={blogStyle} data-testid={dataTestid}>
-      <div>
-        {blog.title} {blog.author}
-        <button onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
-      </div>
+    <Card
+      data-testid={dataTestid}
+      sx={{
+        mb: 2,
+        borderRadius: 2,
+      }}
+    >
+      <CardContent>
+        <Typography variant="h5" gutterBottom>
+          {blog.author}: {blog.title}
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          <a href={blog.url}>{blog.url}</a>
+          <br />
+          {blog.likes} likes
+          <br />
+          added by {blog.user && blog.user.name ? blog.user.name : 'unknown'}
+          <br />
+        </Typography>
 
-      {view && (
-        <div>
-          {blog.url} <br />
-          {blog.likes} likes{' '}
-          <button onClick={() => likeBlog(blog)}>like</button> <br />
-          {console.log(blog.user)}
-          {blog.user && console.log(blog.user.name)}
-          {blog.user.name && <div> {blog.user.name}</div>}
-          {!blog.user.name && <div> {blog.user.username}</div>}
-          {loggedInUser.username === blog.user.username && (
-            <button onClick={() => handleRemove(blog)}>delete</button>
-          )}
-        </div>
-      )}
-    </div>
+        {loggedInUser && (
+          <Button
+            color="success"
+            variant="outlined"
+            onClick={() => likeBlog(blog)}
+          >
+            like
+          </Button>
+        )}
+        {loggedInUser?.username === blog.user?.username && (
+          <Button
+            color="error"
+            variant="outlined"
+            onClick={() => handleRemove(blog.id)}
+          >
+            delete
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   )
 }
 
